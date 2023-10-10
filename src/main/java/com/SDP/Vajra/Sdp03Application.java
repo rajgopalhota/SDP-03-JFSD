@@ -9,10 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Sdp03Application {
 
-	@GetMapping("/")
-	public String welcome() {
-		return "<h1>Hello</h1>";
-	}
 	public static void main(String[] args) {
 		
 		SpringApplication.run(Sdp03Application.class, args);
