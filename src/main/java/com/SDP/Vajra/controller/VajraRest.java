@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.SDP.Vajra.model.Register;
 import com.SDP.Vajra.service.RegisterService;
 
-//@CrossOrigin("http://localhost:3000")
+@CrossOrigin("http://localhost:3000")
 @RestController
 public class VajraRest {
 	RegisterService rss;
@@ -26,11 +26,10 @@ public class VajraRest {
 		this.rss = rss;
 	}
 
-	
 	@PostMapping("/reg")
 	public ResponseEntity<Register> registerUservajra(@RequestBody Register rg) {
-		  Register registeredUser =  rss.registerUser(rg);
-		 return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
+		Register registeredUser = rss.registerUser(rg);
+		return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
 	}
 
 }
