@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.SDP.Vajra.model.Register;
 
-
-public interface RegisterRespository extends JpaRepository<Register, Integer> {
+@Repository
+public interface RegisterRespository extends JpaRepository<Register, String> {
 	
 }

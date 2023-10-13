@@ -1,5 +1,7 @@
 package com.SDP.Vajra.model;
 
+import java.util.Arrays;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.persistence.*;
@@ -8,53 +10,55 @@ import jakarta.persistence.*;
 @Table(name = "register")
 public class Register {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "firstName")
-	private String firstName;
-	@Column(name = "lastName")
-	private String lastName;
-	@Column(name = "email")
-	private String email;
-	@Column(name = "phone")
-	private String phone;
-	@Column(name = "password")
-	private String password;
-	@Column(name = "gender")
-	private String gender;
-	@Column(name = "aadharNumber")
-	private String aadharNumber;
-	@Column(name = "panNumber")
-	private String panNumber;
-	@Lob
-	@Column(name = "imagePath")
-	private byte[] imagePath;
-	@Lob
-	@Column(name = "signaturePath")
-	private byte[] signaturePath;
+    @Column(name = "firstName")
+    private String firstName;
+    @Column(name = "lastName")
+    private String lastName;
+    @Column(name = "email")
+    private String email;
+    @Id
+    @Column(name = "phone")
+    private String phone;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "gender")
+    private String gender;
+    @Column(name = "aadharNumber")
+    private String aadharNumber;
+    @Column(name = "panNumber")
+    private String panNumber;
 
-	public Register() {
-	}
+    @Lob
+    @Column(name = "imagePath", columnDefinition = "MEDIUMBLOB")
+    private byte[] imagePath;
 
-	public Register(Long id, String firstName, String lastName, String email, String phone, String password,
-			String gender, String aadharNumber, String panNumber, byte[] imagePath, byte[] signaturePath) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.phone = phone;
-		this.password = password;
-		this.gender = gender;
-		this.aadharNumber = aadharNumber;
-		this.panNumber = panNumber;
-		this.imagePath = imagePath;
-		this.signaturePath = signaturePath;
-	}
+    @Lob
+    @Column(name = "signaturePath",columnDefinition = "MEDIUMBLOB")
+    private byte[] signaturePath;
 
-	public Long getId() {
+    public Register() { 
+    }
+
+    public Register(Long id, String firstName, String lastName, String email, String phone, String password,
+                    String gender, String aadharNumber, String panNumber, byte[] imagePath, byte[] signaturePath) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.gender = gender;
+        this.aadharNumber = aadharNumber;
+        this.panNumber = panNumber;
+        this.imagePath = imagePath;
+        this.signaturePath = signaturePath;
+    }
+
+
+    public Long getId() {
 		return id;
 	}
 
@@ -142,4 +146,20 @@ public class Register {
 		this.signaturePath = signaturePath;
 	}
 
+	@Override
+    public String toString() {
+        return "Register{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", gender='" + gender + '\'' +
+                ", aadharNumber='" + aadharNumber + '\'' +
+                ", panNumber='" + panNumber + '\'' +
+                ", imagePath=" + Arrays.toString(imagePath) +
+                ", signaturePath=" + Arrays.toString(signaturePath) +
+                '}';
+    }
 }
