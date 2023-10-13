@@ -1,38 +1,35 @@
 package com.SDP.Vajra.controller;
 
-import java.util.Base64;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.SDP.Vajra.model.Register;
-import com.SDP.Vajra.service.RegisterService;
+import com.SDP.Vajra.model.User;
+import com.SDP.Vajra.service.UserService;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
-public class VajraRest {
-	RegisterService rss;
+public class UserRest {
+	UserService rss;
 
 	@Autowired
-	public VajraRest(RegisterService rss) {
+	public UserRest(UserService rss) {
 		super();
 		this.rss = rss;
 	}
 
 	@PostMapping("/reg")
-	public ResponseEntity<Register> registerUservajra(@RequestPart("imagePath") MultipartFile imagePath,
+	public ResponseEntity<User> registerUservajra(@RequestPart("imagePath") MultipartFile imagePath,
 			@RequestPart("signaturePath") MultipartFile signaturePath, @RequestPart("firstName") String firstName,
 			@RequestPart("lastName") String lastName, @RequestPart("email") String email,
 			@RequestPart("phone") String phone, @RequestPart("password") String password,
 			@RequestPart("gender") String gender, @RequestPart("aadharNumber") String aadharNumber,
 			@RequestPart("panNumber") String panNumber) {
 		try {
-			Register register = new Register();
+			User register = new User();
 			register.setFirstName(firstName);
 			register.setLastName(lastName);
 			register.setEmail(email);
@@ -45,7 +42,7 @@ public class VajraRest {
 	        byte[] decodedSignaturePath = signaturePath.getBytes();
 			register.setImagePath(decodedImagePath);
 			register.setSignaturePath(decodedSignaturePath);
-			Register registeredUser = rss.registerUser(register);
+			User registeredUser = rss.registerUser(register);
 			return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,17 +52,20 @@ public class VajraRest {
 
 
 	@PostMapping("/login")
-	public ResponseEntity<Register> loginUser(@RequestPart("phone") String phone, @RequestPart("password") String password) {
+	public ResponseEntity<User> loginUser(@RequestPart("phone") String phone, @RequestPart("password") String password) {
 	    try {
-	        Register user = rss.findById(phone);
-
-	        if (user != null && user.getPassword().equals(password)) {
-	        	
-	            return new ResponseEntity<>(user, HttpStatus.OK);
+	        User user = rss.findById(phone);
+	        
+	        if (user != null) {
+	            if (user.getPassword().equals(password)) {
+	                return new ResponseEntity<>(user, HttpStatus.OK);
+	            } else {
+	                return new ResponseEntity<>(null,HttpStatusCode.valueOf(204));
+	            }
 	        } else {
-	            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+	            return new ResponseEntity<>(null, HttpStatusCode.valueOf(204));
 	        }
-	    } catch (Exception e) {
+	    }catch (Exception e) {
 	        e.printStackTrace();
 	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
@@ -75,7 +75,7 @@ public class VajraRest {
 	@GetMapping("/images/{phonenumber}/{imageType}")
     public ResponseEntity<byte[]> getImage(@PathVariable String phonenumber,@PathVariable String imageType) {
         try {
-            Register user = (Register) rss.findById(phonenumber);
+            User user = (User) rss.findById(phonenumber);
 
             if (user != null) {
                 byte[] imageData = null;

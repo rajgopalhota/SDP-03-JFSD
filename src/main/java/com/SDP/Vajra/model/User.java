@@ -1,16 +1,14 @@
 package com.SDP.Vajra.model;
 
 import java.util.Arrays;
-
-import org.springframework.web.bind.annotation.RestController;
-
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "register")
-public class Register {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class User {
+	
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "firstName")
@@ -20,7 +18,7 @@ public class Register {
     @Column(name = "email")
     private String email;
     @Id
-    @Column(name = "phone")
+    @Column(name = "phone",unique = true)
     private String phone;
     @Column(name = "password")
     private String password;
@@ -38,11 +36,18 @@ public class Register {
     @Lob
     @Column(name = "signaturePath",columnDefinition = "MEDIUMBLOB")
     private byte[] signaturePath;
+    
+    @Column(name = "role")
+    private String role = "customer";
 
-    public Register() { 
+    @Column(name = "isVerified")
+    private boolean isVerified = false;
+
+
+    public User() { 
     }
 
-    public Register(Long id, String firstName, String lastName, String email, String phone, String password,
+    public User(Long id, String firstName, String lastName, String email, String phone, String password,
                     String gender, String aadharNumber, String panNumber, byte[] imagePath, byte[] signaturePath) {
         this.id = id;
         this.firstName = firstName;
@@ -145,6 +150,23 @@ public class Register {
 	public void setSignaturePath(byte[] signaturePath) {
 		this.signaturePath = signaturePath;
 	}
+	
+	public String getRole() {
+	    return role;
+	}
+
+	public void setRole(String role) {
+	    this.role = role;
+	}
+
+	public boolean getIsVerified() {
+	    return isVerified;
+	}
+
+	public void setIsVerified(boolean isVerified) {
+	    this.isVerified = isVerified;
+	}
+
 
 	@Override
     public String toString() {

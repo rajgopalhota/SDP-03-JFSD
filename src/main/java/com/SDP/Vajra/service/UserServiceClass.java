@@ -4,31 +4,29 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.SDP.Vajra.model.Register;
-import com.SDP.Vajra.repository.RegisterRespository;
+import com.SDP.Vajra.model.User;
+import com.SDP.Vajra.repository.UserRespository;
 
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class RegisterServiceClass implements RegisterService{
+public class UserServiceClass implements UserService{
 	
-	RegisterRespository rs;
-	public RegisterServiceClass() {}
+	UserRespository rs;
+	public UserServiceClass() {}
 	@Autowired
-	public RegisterServiceClass(RegisterRespository rs) {
+	public UserServiceClass(UserRespository rs) {
 		this.rs = rs;
 	}
  
 	@Override
-	public Register registerUser(Register r) {
+	public User registerUser(User r) {
 		return rs.save(r);
 	}
 	@Override
-	public Register findById(String imageId) {
+	public User findById(String imageId) {
 		 try {
 		        // Use the RegisterRepository to retrieve the Register entity by its ID
-		        Optional<Register> optionalRegister = rs.findById(imageId);
-
+		        Optional<User> optionalRegister = rs.findById(imageId);
 		        if (optionalRegister.isPresent()) {
 		            return optionalRegister.get();
 		        } else {
